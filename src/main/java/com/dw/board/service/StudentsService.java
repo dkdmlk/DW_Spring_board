@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dw.board.conf.WebSecurityCongfig;
 import com.dw.board.mapper.StudentsMapper;
 import com.dw.board.vo.StudentsVO;
 
@@ -51,6 +52,19 @@ public class StudentsService {
 		vo.setStudentsId(studentsId);
 		int rows = StudentsMapper.updateStudents(vo);
 		return rows;
+	}
+	//가입된 학생인지 아닌지 여부 체크!
+	public boolean isStudents(StudentsVO vo) {
+		StudentsVO Student = StudentsMapper.selectStudentsOne(vo);
+		if(Student == null) { //쿼리결과가 null 리턴
+			return false;
+		}
+		String inputPassword = vo.getStudentsPassword();//HTML 에서 받아온 비밀번호
+		String password = Student.getStudentsPassword();//DB에서 가져온 비밀번호
+		if(!passwordEncoder.matches(inputPassword, password)) {//비밀번호 체크!
+			return false;
+		}
+		return true;
 	}
 	
 }

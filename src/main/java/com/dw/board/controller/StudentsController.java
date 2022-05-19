@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dw.board.mapper.StudentsMapper;
 import com.dw.board.service.StudentsService;
 import com.dw.board.vo.StudentsVO;
 
@@ -60,4 +59,11 @@ public class StudentsController {
 		public int callUpdatestudents(@PathVariable("id") int studentsId ,@RequestBody StudentsVO vo) {
 			return StudentsService.getupdateStudents(studentsId, vo);
 		}
+		//중요한 정보를 보낼때 Post를 사용
+		@CrossOrigin
+		@PostMapping("/login")
+		public boolean callIsLogin(@RequestBody StudentsVO vo) {
+			return StudentsService.isStudents(vo);
+		}
+		
 }
