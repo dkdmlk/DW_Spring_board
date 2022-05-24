@@ -1,6 +1,7 @@
 package com.dw.board.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,7 +29,7 @@ public class BoardRestContoller {
 	
 	@CrossOrigin
 	@GetMapping("/board")
-	public List<BoardVO> callBoardList(){
+	public List<Map<String, Object>> callBoardList(){
 		return boradservice.getBoardAllList();
 	}
 	

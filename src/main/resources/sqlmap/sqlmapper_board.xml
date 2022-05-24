@@ -20,15 +20,19 @@
 		)
 	</insert>
 	
-	<select id="boardAllList" resultType="BoardVO">
+	<!-- join으로 조회할때 Map으로 -->
+	<select id="boardAllList" resultType="map">
 		SELECT
-			board_id AS boardId ,
-			students_id AS studentsId ,
-			title AS title ,
-			content AS content ,
-			update_at AS updateAt ,
-			create_at AS createAt
-		FROM board 
+			b.board_id AS boardId ,
+			s.students_id AS studentsId ,
+			s.students_name AS studentsName,
+			b.title AS title ,
+			b.content AS content ,
+			IFNULL(Date_format(b.update_at, '%Y-%m-%d'), "-") AS updateAt ,
+			Date_format(b.create_at, '%Y-%m-%d') AS createAt
+		FROM board AS b
+		INNER JOIN students AS s
+		on b.students_id = s.students_id
 	</select>
 	
 </mapper>
