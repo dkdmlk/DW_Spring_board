@@ -29,10 +29,70 @@
 			b.title AS title ,
 			b.content AS content ,
 			IFNULL(Date_format(b.update_at, '%Y-%m-%d'), "-") AS updateAt ,
-			Date_format(b.create_at, '%Y-%m-%d') AS createAt
+			Date_format(b.create_at, '%Y-%m-%d') AS createAt,
+			b.cnt AS cnt
 		FROM board AS b
 		INNER JOIN students AS s
 		on b.students_id = s.students_id
+	</select>
+	
+	<delete id="deleteBoard">
+		DELETE FROM board
+		WHERE board_id = #{boardId}
+	</delete>
+	
+	<update id="updateBoard">
+		UPDATE board
+		SET
+			title = #{title},
+			content = #{content},
+			update_at = now()
+		WHERE board_id = #{boardId}
+	</update>
+	
+	<select id="selectBoard" resultType="BoardVO">
+		SELECT
+			title AS title ,
+			content AS content ,
+			create_at AS creatAT,
+			cnt AS cnt
+		FROM board
+		WHERE board_id = #{boardId}
+	</select>
+	
+	<!--  
+	<select id="selectBoardOne" resultType="BoardVO">
+		SELECT
+			title,
+			content,
+			create_at,
+			cnt
+		FROM board
+		WHERE b.board_id = #{boardId}
+	</select> -->
+	
+	<!-- 조회수 업데이트 -->
+	<update id="updateBoardViews">
+		UPDATE board
+		SET 
+			cnt = #{cnt}
+		WHERE board_id = #{boardId}
+	</update>
+	
+	<select id="selectSearchBoardList" resultType="map">
+		SELECT
+			b.board_id AS boardId ,
+			s.students_id AS studentsId ,
+			s.students_name AS studentsName,
+			b.title AS title ,
+			b.content AS content ,
+			IFNULL(Date_format(b.update_at, '%Y-%m-%d'), "-") AS updateAt ,
+			Date_format(b.create_at, '%Y-%m-%d') AS createAt,
+			b.cnt AS cnt
+		FROM board AS b
+		INNER JOIN students AS s
+		on b.students_id = s.students_id
+		WHERE s.students_name LIKE CONCAT(#{studentsName} ,'%')
 	</select>
 	
 </mapper>

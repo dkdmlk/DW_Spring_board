@@ -43,11 +43,12 @@ public class StudentsController {
 		//학생 조회(Map)
 		@GetMapping("/students/Map")
 		public List<Map<String, Object>> callStudentMapList(HttpSession httpSession){
-			String name = (String)httpSession.getAttribute("name");
-			System.out.println("세션에서 가져온 이름은 ====> " + name);
-			if(name == null) {//로그인을 하지 않으면 막음
-				return null;
-			}
+			//세션 데이터 가져오기 (추후 로직 구현 예정)
+//			String name = (String)httpSession.getAttribute("name");
+//			System.out.println("세션에서 가져온 이름은 ====> " + name);
+//			if(name == null) {//로그인을 하지 않으면 막음
+//				return null;
+//			}
 			return StudentsService.getStudentMapList();
 		}
 		
