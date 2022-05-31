@@ -74,7 +74,12 @@ public class BoardRestContoller {
 		return boardservice.getSearchBoardList(writer);
 	}
 	
-	
+	//학생수 ,게시글수 ,작성자 수 ,총 조회수 통계
+	@CrossOrigin
+	@GetMapping("/board/statisticsa")
+	public Map<String, Object> callBoardStatisticsa(){
+		return boardservice.getBoardStatisticsa();
+	}
 }
 
 

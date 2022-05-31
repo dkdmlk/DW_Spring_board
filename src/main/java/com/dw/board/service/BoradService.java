@@ -66,4 +66,9 @@ public class BoradService {
 		return boardmapper.selectSearchBoardList(studentsName);
 	}
 	
+	//학생수 ,게시글수 ,작성자 수 ,총 조회수 통계
+	public Map<String, Object> getBoardStatisticsa(){
+		return boardmapper.selectBoardStatisticsa();
+	}
+	
 }

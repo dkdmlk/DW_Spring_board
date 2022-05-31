@@ -62,6 +62,21 @@ public interface BoardMapper {
 	 */
 	public int updateBoardViews(BoardVO vo);
 	
+	/**
+	 * @param studentsName
+	 * @return
+	 * @author : In Seok
+	 * @Date : 2022. 5. 31.
+	 * comment : 쿼리 스트링으로 검색한 작성자 게시판 리스트 조회
+	 */
 	public List<Map<String, Object>> selectSearchBoardList(String studentsName);
+	
+	/**
+	 * @return
+	 * @author : In Seok
+	 * @Date : 2022. 5. 31.
+	 * comment : 학생수 ,게시글수 ,작성자 수 ,총 조회수 통계
+	 */
+	public Map<String, Object> selectBoardStatisticsa();
 	
 }
