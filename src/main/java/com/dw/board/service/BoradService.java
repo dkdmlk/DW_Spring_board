@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dw.board.mapper.BoardMapper;
 import com.dw.board.vo.BoardVO;
+import com.github.pagehelper.PageHelper;
 
 
 @Service
@@ -21,14 +22,9 @@ public class BoradService {
 		return boardmapper.insertBoard(vo);
 	}
 	//게시물 가져오기
-	public List<Map<String, Object>> getBoardAllList(){
-		List<Map<String, Object>> list = boardmapper.boardAllList();
-//		for(int i=0; i<list.size();++i) {
-//			if(list.get(i).get("updateAt").equals(null)) {
-//				list.get(i).replace("updateAt", "-");
-//				return list;
-//			}		
-//		}
+	public List<Map<String, Object>> getBoardAllList(int pageNum,int pageSize){
+		PageHelper.startPage(pageNum, pageSize);
+		
 		return boardmapper.boardAllList();
 	}
 	//게시물삭제
