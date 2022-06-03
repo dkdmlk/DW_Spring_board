@@ -57,7 +57,7 @@ public class BoradService {
 		
 		return rows;
 	}
-	
+	//게시물 학생 조회
 	public List<Map<String, Object>> getSearchBoardList(String studentsName){
 		return boardmapper.selectSearchBoardList(studentsName);
 	}

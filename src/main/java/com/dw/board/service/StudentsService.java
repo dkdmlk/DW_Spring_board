@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dw.board.conf.WebSecurityCongfig;
 import com.dw.board.mapper.StudentsMapper;
 import com.dw.board.vo.StudentsVO;
+import com.github.pagehelper.PageHelper;
 
 @Service
 public class StudentsService {
@@ -29,9 +30,15 @@ public class StudentsService {
 		return StudentsMapper.insertStudent(VO);
 	}
 	//학생 조회
-	public List<StudentsVO> getStudentsList(){
+	public List<StudentsVO> getStudentsList(int pageNum,int pageSize){
+		PageHelper.startPage(pageNum, pageSize);
 		return StudentsMapper.selectStudentsList();
 	}
+	//학생 검색 조회
+	public List<StudentsVO> getSearchStudent(String studentsName) {
+		return StudentsMapper.selectSearchStudent(studentsName);
+	}
+	
 	//학생 조회(Map)
 	public List<Map<String, Object>> getStudentMapList(){
 		return StudentsMapper.selectStudentMapList();
@@ -66,5 +73,6 @@ public class StudentsService {
 		}
 		return true;
 	}
+	
 	
 }

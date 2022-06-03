@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dw.board.service.StudentsService;
 import com.dw.board.vo.StudentsVO;
+import com.github.pagehelper.PageInfo;
 
 @RestController
 @RequestMapping("/api/v1") 
@@ -27,6 +29,7 @@ ex)학생저장 @PostMapping("/api/v1/students")->@PostMapping("/students")*/
 public class StudentsController {
 		@Autowired
 		private StudentsService StudentsService;
+		
 		//학생 저장
 		//post는 body에 숨겨서 데이터를보냄(보안)
 		@CrossOrigin
@@ -35,11 +38,14 @@ public class StudentsController {
 			return StudentsService.setStudents(vo);
 		}
 		
-		//학생 조회
+		//학생 조회 or 페이징구현
+		@CrossOrigin
 		@GetMapping("/students")
-		public List<StudentsVO> callStudentList(){
-			return StudentsService.getStudentsList();
+		public PageInfo<StudentsVO> callStudentList(@RequestParam("pageNum")int pageNum, @RequestParam("pageSize")int pageSize){
+			List<StudentsVO> list = StudentsService.getStudentsList(pageNum,pageSize);
+			return new PageInfo<StudentsVO>(list);
 		}
+		
 		//학생 조회(Map)
 		@GetMapping("/students/Map")
 		public List<Map<String, Object>> callStudentMapList(HttpSession httpSession){
@@ -50,6 +56,11 @@ public class StudentsController {
 //				return null;
 //			}
 			return StudentsService.getStudentMapList();
+		}
+		@CrossOrigin
+		@GetMapping("/students/search")
+		public List<StudentsVO> callBoardSearch(@RequestParam("writer")String writer){
+			return StudentsService.getSearchStudent(writer);
 		}
 		
 		//특정 학생 조회(PK로 조회예정)

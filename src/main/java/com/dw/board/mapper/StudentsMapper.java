@@ -74,4 +74,13 @@ public interface StudentsMapper {
 	 * comment : 학생이름으로 학생정보 조회
 	 */
 	public StudentsVO selectStudentsOne(StudentsVO vo);
+	
+	/**
+	 * @param studentsName
+	 * @return
+	 * @author : In Seok
+	 * @Date : 2022. 6. 3.
+	 * comment : 학생 검색 조회
+	 */
+	public List<StudentsVO> selectSearchStudent(String studentsName);
 }
