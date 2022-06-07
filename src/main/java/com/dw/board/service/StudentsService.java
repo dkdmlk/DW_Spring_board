@@ -34,7 +34,7 @@ public class StudentsService {
 		PageHelper.startPage(pageNum, pageSize);
 		return StudentsMapper.selectStudentsList();
 	}
-	//학생 검색 조회
+	//학생 검색 조회*
 	public List<StudentsVO> getSearchStudent(String studentsName) {
 		return StudentsMapper.selectSearchStudent(studentsName);
 	}

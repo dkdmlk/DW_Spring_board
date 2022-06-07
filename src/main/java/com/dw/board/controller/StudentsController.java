@@ -57,6 +57,7 @@ public class StudentsController {
 //			}
 			return StudentsService.getStudentMapList();
 		}
+		//서치
 		@CrossOrigin
 		@GetMapping("/students/search")
 		public List<StudentsVO> callBoardSearch(@RequestParam("writer")String writer){
@@ -64,16 +65,19 @@ public class StudentsController {
 		}
 		
 		//특정 학생 조회(PK로 조회예정)
+		@CrossOrigin
 		@GetMapping("/students/id/{id}")
 		public StudentsVO callStudent(@PathVariable("id") int studentsId) {
 			return StudentsService.getselectStudents(studentsId);
 		}
 		//특정 학생 제거
+		@CrossOrigin
 		@DeleteMapping("/students/id/{id}")
 		public int callRemovestudents(@PathVariable("id") int studentsId) {
 			return StudentsService.getDeleteStudents(studentsId);
 		}
 		//특정 학생 수정
+		@CrossOrigin
 		@PatchMapping("/students/id/{id}")
 		public int callUpdatestudents(@PathVariable("id") int studentsId ,@RequestBody StudentsVO vo) {
 			return StudentsService.getupdateStudents(studentsId, vo);
