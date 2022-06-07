@@ -47,6 +47,7 @@ public class StudentsController {
 		}
 		
 		//학생 조회(Map)
+		@CrossOrigin
 		@GetMapping("/students/Map")
 		public List<Map<String, Object>> callStudentMapList(HttpSession httpSession){
 			//세션 데이터 가져오기 (추후 로직 구현 예정)
@@ -57,11 +58,17 @@ public class StudentsController {
 //			}
 			return StudentsService.getStudentMapList();
 		}
-		//서치
 		@CrossOrigin
 		@GetMapping("/students/search")
 		public List<StudentsVO> callBoardSearch(@RequestParam("writer")String writer){
 			return StudentsService.getSearchStudent(writer);
+		}
+		
+		@CrossOrigin
+		@GetMapping("/students/search/searchPage")
+		public PageInfo<StudentsVO> callBoardSearch(@RequestParam("writer")String writer,@RequestParam("pageNum")int pageNum, @RequestParam("pageSize")int pageSize){
+			List<StudentsVO> list = StudentsService.getSearchStudentPage(writer,pageNum,pageSize);
+			return new PageInfo<StudentsVO>(list);
 		}
 		
 		//특정 학생 조회(PK로 조회예정)
