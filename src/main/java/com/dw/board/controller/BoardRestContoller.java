@@ -73,8 +73,10 @@ public class BoardRestContoller {
 	//쿼리 스트링으로 검색한 작성자 게시판 리스트 조회
 	@CrossOrigin
 	@GetMapping("/board/search")
-	public List<Map<String, Object>> callBoardSearch(@RequestParam("writer")String writer){
-		return boardservice.getSearchBoardList(writer);
+	public PageInfo<Map<String, Object>> callBoardSearch(@RequestParam("writer")String writer,
+			@RequestParam("pageNum")int pageNum,@RequestParam("pageSize")int pageSize){
+		List<Map<String, Object>> list = boardservice.getSearchBoardList(writer,pageNum, pageSize);
+		return new PageInfo<Map<String, Object>>(list);
 	}
 	
 	//학생수 ,게시글수 ,작성자 수 ,총 조회수 통계

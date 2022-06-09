@@ -58,7 +58,8 @@ public class BoradService {
 		return rows;
 	}
 	//게시물 학생 조회
-	public List<Map<String, Object>> getSearchBoardList(String studentsName){
+	public List<Map<String, Object>> getSearchBoardList(String studentsName,int pageNum,int pageSize){
+		PageHelper.startPage(pageNum, pageSize);
 		return boardmapper.selectSearchBoardList(studentsName);
 	}
 	
