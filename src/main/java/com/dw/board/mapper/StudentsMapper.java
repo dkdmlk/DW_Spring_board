@@ -83,4 +83,6 @@ public interface StudentsMapper {
 	 * comment : 학생 검색 조회
 	 */
 	public List<StudentsVO> selectSearchStudent(String studentsName);
+	
+	public List<Map<String, Object>> selectControllerSearchStudent(String studentsName);
 }

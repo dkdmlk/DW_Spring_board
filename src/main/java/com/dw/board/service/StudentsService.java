@@ -34,6 +34,17 @@ public class StudentsService {
 		PageHelper.startPage(pageNum, pageSize);
 		return StudentsMapper.selectStudentsList();
 	}
+	//controller page용
+	public List<Map<String, Object>> getStudentControllerMapList(int pageNum,int pageSize){
+		PageHelper.startPage(pageNum, pageSize);
+		return StudentsMapper.selectStudentMapList();
+	}
+	//controller serch page용
+		public List<Map<String, Object>> getStudentControllerSearchList(String studentsName,int pageNum,int pageSize){
+			PageHelper.startPage(pageNum, pageSize);
+			return StudentsMapper.selectControllerSearchStudent(studentsName);
+		}
+	
 	//학생 검색 조회
 	public List<StudentsVO> getSearchStudent(String studentsName) {
 		return StudentsMapper.selectSearchStudent(studentsName);

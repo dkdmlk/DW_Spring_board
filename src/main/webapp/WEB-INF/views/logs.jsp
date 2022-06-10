@@ -47,7 +47,7 @@
             </a>
           </li>
           <li>
-            <a href="/게시판_프론트/board/index.html">
+            <a href="/board?pageNum=1&pageSize=10#"">
               <span class="icon"
                 ><ion-icon name="home-outline"></ion-icon
               ></span>
@@ -55,7 +55,7 @@
             </a>
           </li>
           <li>
-            <a href="/게시판_프론트/board/students.html">
+            <a href="/students?pageNum=1&pageSize=10">
               <span class="icon"
                 ><ion-icon name="person-outline"></ion-icon
               ></span>
@@ -63,7 +63,7 @@
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="/logs?pageNum=1&pageSize=10">
               <span class="icon"
                 ><ion-icon name="lock-closed-outline"></ion-icon
               ></span>
@@ -71,7 +71,7 @@
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="/login">
               <span class="icon"
                 ><ion-icon name="log-out-outline"></ion-icon
               ></span>
@@ -95,7 +95,7 @@
           </label>
         </div>
         <div>
-          <a href="#" class="logout">Logout</a>
+          <a href="/login" class="logout">Logout</a>
         </div>
       </div>
       <!-- table -->
@@ -115,6 +115,27 @@
               </tr>
             </thead>
             <tbody id="boardData">
+            
+            <c:choose>	 		
+	 			<c:when test="${fn:length(pageHelper.list) > 0}">
+	 				<c:forEach items="${pageHelper.list}" var="item">	
+		 				<tr onclick="getPopup(${item.log_id})">
+				    		<td>${item.log_id}</td>
+				    		<td>${item.ip}</td>
+				    		<td>${item.latitude}</td>
+				    		<td>${item.longitude}</td>
+				    		<td>${item.url}</td>
+				    		<td>${item.http_method}</td>
+				    		<td>${item.create_at}</td>		    							    			
+  						</tr>
+					</c:forEach>
+	 			</c:when>
+	 			<c:otherwise>
+	 				<tr>
+	 					<td colspan="6">데이터가 없습니다.</td>
+	 				</tr>
+	 			</c:otherwise>
+	 		</c:choose>
               <!-- <tr onclick="getPopup()">
                 <td>1</td>
                 <td>192.158.0.252</td>
@@ -136,16 +157,33 @@
                 <td>GET</td>
                 <td>2022-05-19 13:33:02</td>
               </tr> -->
+              
             </tbody>
           </table>
+          
           <div class="pagination">
-            <a href="#">Previous</a>
+          <c:if test="${pageHelper.hasPreviousPage}">
+          	<a onclick="getBoardList(${pageHelper.pageNum-1},10)">Previous</a>
+          </c:if>
+          <c:forEach begin="${pageHelper.navigateFirstPage}" end="${pageHelper.navigateLastPage}"  var="pageNum">
+          	<a id="pageNum${pageNum}"  onclick="getBoardList(${pageNum},10)">${pageNum}</a>
+          </c:forEach>
+          <c:if test="${pageHelper.hasNextPage}">
+          	<a onclick="getBoardList(${pageHelper.pageNum+1},10)">Next</a>
+          </c:if>
+          
+          
+          
+          
+          
+           <!--   <a href="#">Previous</a>
             <a href="#">1</a>
             <a href="#">2</a>
             <a href="#">3</a>
             <a href="#">4</a>
             <a href="#">5</a>
-            <a href="#">Next</a>
+            <a href="#">Next</a>-->
+            
           </div>
         </div>
       </div>
@@ -181,6 +219,17 @@
     });
   </script>
   <script>
+  getPageNum()
+  function getPageNum(){
+		var pageNum = $('#nowPageNum').val();
+		 $("#pageNum" + pageNum).css("background-color", "#287bff");
+       $("#pageNum" + pageNum).css("color", "#fff");
+	}
+
+ 	function getBoardList(pageNum, pageSize){
+ 		location.href="/logs?pageNum="+pageNum+"&pageSize="+pageSize;
+ 	}
+  
     $(".logs-popup").css("display", "none");
 
     function getPopup(log_id) {
@@ -223,89 +272,6 @@
       $(".logs-popup").css("display", "none");
     });
 
-    getBoardList(1, 10);
-    function getBoardList(pageNum, pageSize) {
-      $.ajax({
-        url:
-          "/api/v1/logs?pageNum=" +
-          pageNum +
-          "&pageSize= " +
-          pageSize +
-          " ",
-        type: "GET",
-        dataType: "json",
-        success: function (response) {
-          console.log(response);
-          let html = "";
-          var len = response.list.length;
-          if (len > 0) {
-            for (var i = 0; i < len; ++i) {
-              html +=
-                "<tr onclick=getPopup(" +
-                response.list[i].log_id +
-                ")><td>" +
-                response.list[i].log_id +
-                "</td><td>" +
-                response.list[i].ip +
-                "</td><td>" +
-                response.list[i].latitude +
-                "</td><td>" +
-                response.list[i].longitude +
-                "</td><td> " +
-                response.list[i].url +
-                "</td><td>" +
-                response.list[i].http_method +
-                "</td><td>" +
-                response.list[i].create_at +
-                "</td></tr>";
-            } //z
-            var paginationHtml = "";
-            if (response.hasPreviousPage) {
-              //이전 페이지가 true 라면
-              paginationHtml +=
-                '<a onclick="getBoardList(' +
-                (response.pageNum - 1) +
-                "," +
-                pageSize +
-                ')"href="#">Previous</a>';
-            }
-            for (var i = 0; i < response.navigatepageNums.length; i++) {
-              //페이지 번호 길이 만큼 for문 실행
-              paginationHtml +=
-                '<a id ="pageNum' +
-                response.navigatepageNums[i] +
-                '" onclick="getBoardList(' +
-                response.navigatepageNums[i] +
-                "," +
-                pageSize +
-                ')" href="#">' +
-                response.navigatepageNums[i] +
-                "</a>";
-            }
-            if (response.hasNextPage) {
-              //다음 페이지가 true 라면
-              paginationHtml +=
-                '<a onclick="getBoardList(' +
-                (response.pageNum + 1) +
-                ',10)"href="#">Next</a>';
-            }
-            $(".pagination").children().remove();
-            $(".pagination").append(paginationHtml);
-            //페이지 번호에 맞게 css 수정
-            $("#pageNum" + pageNum).css("background-color", "#287bff");
-            $("#pageNum" + pageNum).css("color", "#fff");
-          } else {
-            //게시글 없음 로직 구현
-            html +=
-              '<tr><td colspan=6 style="text-align:center;"><h2>게시글이 없습니다.</h2></td></tr>';
-          }
-          $("#boardData").children().remove();
-          $("#boardData").append(html);
-        },
-        error: function (request, status, error) {
-          console.log("에러내용은 ===>" + error);
-        },
-      });
-    }
+    
   </script>
 </html>

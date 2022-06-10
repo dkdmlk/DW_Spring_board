@@ -84,7 +84,7 @@
             </a>
           </li>
           <li>
-            <a href="/students">
+            <a href="/students?pageNum=1&pageSize=10">
               <span class="icon"
                 ><ion-icon name="person-outline"></ion-icon
               ></span>
@@ -92,7 +92,7 @@
             </a>
           </li>
           <li>
-            <a href="/logs">
+            <a href="/logs?pageNum=1&pageSize=10">
               <span class="icon"
                 ><ion-icon name="lock-closed-outline"></ion-icon
               ></span>
@@ -389,7 +389,7 @@
     //게시글등록
     $("#contentSubmit").click(function () {
         if (confirm("게시글을 작성하시겠습니까?")) {
-          var studentsId = 13;
+          var studentsId = 1;
           var title = $("#title").val();
           var content = $("#content").val();
 
@@ -488,9 +488,9 @@
           var pageSize = 10;
           var pageNum = 1;
           if(key.keyCode == 13){
-              var search = $('#searchBar').val().trim();//input에 작성한 작성자를 가져옴
-             	if(search != ''){
-             		location.href="/board/search?writer="+search+"&pageNum="+pageNum+"&pageSize="+pageSize;
+             var search = $('#searchBar').val().trim();//input에 작성한 작성자를 가져옴
+             if(search != ''){
+             	location.href="/board/search?writer="+search+"&pageNum="+pageNum+"&pageSize="+pageSize;
              }
           }
       });
