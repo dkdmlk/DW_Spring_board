@@ -34,7 +34,7 @@ public class StudentsController {
 		List<Map<String, Object>> list = StudentsService.getStudentControllerSearchList(writer, pageNum, pageSize);
 		PageInfo<Map<String, Object>> pageInfo = new PageInfo<Map<String, Object>>(list);
 		map.addAttribute("pageHelper", pageInfo);
-		return "board";
+		return "students";
 	}
 	
 }

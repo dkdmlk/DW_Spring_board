@@ -129,7 +129,7 @@
         <div class="search">
           <label>
             <input
-              id="studentsearchBar"
+              id="searchBar"
               type="text"
               placeholder="학생이름을 검색하세요..."
             />
@@ -137,7 +137,7 @@
           </label>
         </div>
         <div>
-          <a href="#" class="logout">Logout</a>
+          <a href="/login" class="logout">Logout</a>
         </div>
       </div>
       <!-- table -->
@@ -380,21 +380,13 @@
       }); //추가끝
       
     //학생서치
-      $("#studentsearchBar").keyup(function (key) {
+      $("#searchBar").keyup(function (key) {
     	var pageSize = 10;
         var pageNum = 1;
         //엔터를 누를때(keycode => 13) hello world출력
-        var search = $("#studentsearchBar").val().trim(); //inp에 작성한 작성자를 가져옴
-        if (search != "") {
-          $("#keyword").val(search);
-        }
         if (key.keyCode === 13) {
           //1. input 값을 가져옴.
-          var search = $("#studentsearchBar").val(); //input에 작성한 작성자를가져옴
-          if (search == "") {
-            alert("검색어를 입력해주세요");
-            return false;
-          }
+          var search = $("#searchBar").val(); //input에 작성한 작성자를가져옴
           if(search != ''){
         	  location.href="/students/search?writer="+search+"&pageNum="+pageNum+"&pageSize="+pageSize;
           }
