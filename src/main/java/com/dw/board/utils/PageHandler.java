@@ -1,10 +1,13 @@
 package com.dw.board.utils;
 
+import org.springframework.stereotype.Component;
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Component
 public class PageHandler {
 	private int total; //전체 게시물 수
 	private int pageNum; //현재페이지
@@ -23,9 +26,9 @@ public class PageHandler {
 	 * @Date : 2022. 5. 31.
 	 * comment : 총페이지 수
 	 */
-	public int calcPage(int total,int pageSize) {
-		int pages = total/pageSize;
-		if(total % pageSize > 0) {
+	public int calcPage(int total, int pageSize) {
+		int pages = total / pageSize;
+		if (total % pageSize > 0) {
 			++pages;
 		}
 		return pages;
@@ -37,8 +40,8 @@ public class PageHandler {
 	 * @Date : 2022. 5. 31.
 	 * comment : 현재 내 블록 알아내기
 	 */
-	public void setNowBlock(int pageNum, int navigatePages) {
-		this.nowBlock = pageNum / navigatePages;
+	public void setNowBlock(int pageNum) {
+		this.nowBlock = pageNum / this.navigatePages;
 		if(pageNum % navigatePages > 0)this.nowBlock++;
 	}
 	
@@ -57,10 +60,10 @@ public class PageHandler {
 		this.startpage = (nowBlock*this.navigatePages) - (this.navigatePages-1);
 	}
 	//현재 블록의 마지막 페이지
-	public void setEndPage(int nowBlock, int total) {
+	public void setEndPage(int nowBlock, int pages) {
 		this.endPage = nowBlock*this.navigatePages;
 		if(nowBlock == lastBlock) {
-			this.endPage = total;
+			this.endPage = pages;
 		}
 	}
 	//이전버튼,다음버튼 유무 판단

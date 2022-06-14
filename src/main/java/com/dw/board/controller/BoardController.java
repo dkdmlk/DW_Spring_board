@@ -3,6 +3,8 @@ package com.dw.board.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,32 +18,35 @@ import com.github.pagehelper.PageInfo;
 public class BoardController {
 	@Autowired
 	private BoradService boardservice;
-	
+
 	@GetMapping("/home")
 	public String callHomepage() {
 		return "index";
 	}
-	
+
 	@GetMapping("/board")
-	public String callBoardPage(ModelMap map,@RequestParam("pageNum")int pageNum,@RequestParam("pageSize")int pageSize) {
-		
+	public String callBoardPage(ModelMap map, @RequestParam("pageNum") int pageNum,
+			@RequestParam("pageSize") int pageSize, HttpSession session) {
+
 		List<Map<String, Object>> list = boardservice.getBoardAllList(pageNum, pageSize);
 		PageInfo<Map<String, Object>> pageInfo = new PageInfo<Map<String, Object>>(list);
 		map.addAttribute("pageHelper", pageInfo);
-		
+
+		int studentsId = (int) session.getAttribute("studentsId");
+		map.addAttribute("studentsId", studentsId);
+		String studentsName = (String) session.getAttribute("studentsName");
+		map.addAttribute("studentsName", studentsName);
+
 		return "board";
 	}
-	
+
 	@GetMapping("/board/search")
-	public String callBoardSearchPage(ModelMap map,
-			@RequestParam("writer") String writer,
-			@RequestParam("pageNum") int pageNum,
-			@RequestParam("pageSize") int pageSize){
+	public String callBoardSearchPage(ModelMap map, @RequestParam("writer") String writer,
+			@RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize) {
 		List<Map<String, Object>> list = boardservice.getSearchBoardList(writer, pageNum, pageSize);
 		PageInfo<Map<String, Object>> pageInfo = new PageInfo<Map<String, Object>>(list);
 		map.addAttribute("pageHelper", pageInfo);
 		return "board";
 	}
-	
-	
+
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.dw.board.vo.BoardVO;
 
@@ -78,5 +79,21 @@ public interface BoardMapper {
 	 * comment : 학생수 ,게시글수 ,작성자 수 ,총 조회수 통계
 	 */
 	public Map<String, Object> selectBoardStatisticsa();
+	
+	/**
+	 * @return
+	 * @author : In Seok
+	 * @Date : 2022. 6. 14.
+	 * comment : 보드 count
+	 */
+	public int selectboardTotal();
+	
+	/**
+	 * @return
+	 * @author : In Seok
+	 * @Date : 2022. 6. 14.
+	 * comment : 페이징테스트보드리스트
+	 */
+	public List<Map<String, Object>> boardAllListTest(@Param("pageSize")int pageSize,@Param("pageNum")int pageNum);
 	
 }

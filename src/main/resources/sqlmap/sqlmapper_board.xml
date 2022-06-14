@@ -36,6 +36,32 @@
 		on b.students_id = s.students_id
 	</select>
 	
+	<select id="boardAllListTest" resultType="map">
+		SELECT
+			b.board_id AS boardId ,
+			s.students_id AS studentsId ,
+			s.students_name AS studentsName,
+			b.title AS title ,
+			b.content AS content ,
+			IFNULL(Date_format(b.update_at, '%Y-%m-%d'), "-") AS updateAt ,
+			Date_format(b.create_at, '%Y-%m-%d') AS createAt,
+			b.cnt AS cnt
+		FROM board AS b
+		INNER JOIN students AS s
+		on b.students_id = s.students_id
+		LIMIT #{pageNum},#{pageSize}
+	</select>
+	
+	<select id="selectboardTotal" resultType="int">
+		SELECT
+			COUNT(*) AS boardCnt
+		FROM board AS b
+		INNER JOIN students AS s
+		on b.students_id = s.students_id
+	</select>
+	
+	
+	
 	<delete id="deleteBoard">
 		DELETE FROM board
 		WHERE board_id = #{boardId}
