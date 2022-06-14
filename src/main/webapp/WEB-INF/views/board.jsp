@@ -100,7 +100,7 @@
             </a>
           </li>
           <li>
-            <a href="/lohin">
+            <a href="/login">
               <span class="icon"
                 ><ion-icon name="log-out-outline"></ion-icon
               ></span>

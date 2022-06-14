@@ -58,7 +58,7 @@
           data : JSON.stringify(jsonData),
           success : function(reponse){
             if(reponse){
-              location.href = 'board/index.html';
+              location.href = "/board?pageNum=1&pageSize=10#";
             }else{
               alert('비밀번호 혹은 이름이 틀렸습니다.')
             }

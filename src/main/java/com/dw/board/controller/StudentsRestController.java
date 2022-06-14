@@ -93,11 +93,11 @@ public class StudentsRestController {
 		@CrossOrigin
 		@PostMapping("/login")
 		public boolean callIsLogin(@RequestBody StudentsVO vo , HttpSession httpSession) {
-			boolean isLogin = StudentsService.isStudents(vo);
-			if(isLogin) {
-				httpSession.setAttribute("name", "kanginseok");
-			}
+			boolean isLogin = StudentsService.isStudents(vo,httpSession);
+			
 			return isLogin;
 		}
+		
+		
 		
 }
