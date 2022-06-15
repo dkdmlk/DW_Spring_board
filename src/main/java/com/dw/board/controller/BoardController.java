@@ -36,7 +36,8 @@ public class BoardController {
 		map.addAttribute("studentsId", studentsId);
 		String studentsName = (String) session.getAttribute("studentsName");
 		map.addAttribute("studentsName", studentsName);
-
+		
+		
 		return "board";
 	}
 

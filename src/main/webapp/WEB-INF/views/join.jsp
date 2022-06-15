@@ -70,6 +70,11 @@
       <input id="rePassword" type="password" />
       <label for="userName">이름</label>
       <input id="userName" type="text" />
+      
+      <label for="userAddr">주소</label>
+      <input id="userAddr" type="text" />
+      <button type="button" onclick="getPostCode()">도로명 주소</button>
+      
       <button type="button" onclick="join()">가입하기</button>
     </div>
     <script
@@ -77,43 +82,77 @@
       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
       crossorigin="anonymous"
     ></script>
-    <script>
-      function join(){
-        var password = $('#password').val();
-        var rePassword = $('#rePassword').val()
-        var userName = $('#userName').val();
-        //빈칸체크
-        if(password === ' '||rePassword === ''|| userName ===''){
-          alert('양식을 모두 적어주세요');
-          return false;
-        }
-        //비밀번호와 재확인 같은지 확인
-        if(password !== rePassword){
-          alert('입력란 비밀번호가 다릅니다.');
-          $('#rePassword').focus();
-          return false;
-        }
-        //API서버에 전송할 json 생성
-        var jsonData = {  
-          studentsName : userName,
-          studentsPassword : password
-        }
-        //AJAX세팅  
-        $.ajax({
-          url : "/api/v1/students",
-          type : "POST",
-          contentType : "application/json",//서버에 json타입으로 요청
-          dataType : "json",//서버결과 json으로요청
-          data : JSON.stringify(jsonData),
-          success : function(reponse){
-            console.log(reponse)
-            if(reponse > 0){
-              alert('회원가입이 완료되었습니다');
-              location.href= "/login"
-            }
-          } 
-        });
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	
+	<script>
+		//도로명 주소 연결
+		function getPostCode(){
+    	  new daum.Postcode({
+              oncomplete: function(data) {
+                  // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
+                  // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                  var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+                  var extraRoadAddr = ''; // 도로명 조합형 주소 변수
+
+                  // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                  // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                  if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                      extraRoadAddr += data.bname;
+                  }
+                  // 건물명이 있고, 공동주택일 경우 추가한다.
+                  if(data.buildingName !== '' && data.apartment === 'Y'){
+                      extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                  }
+                  // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                  if(extraRoadAddr !== ''){
+                      extraRoadAddr = ' (' + extraRoadAddr + ')';
+                  }
+                  // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
+                  if(fullRoadAddr !== ''){
+                      fullRoadAddr += extraRoadAddr;
+                  }
+                  $("#userAddr").val(fullRoadAddr);
+                  //$("#userAddr").val(data.zonecode+', '+fullRoadAddr);
+              }
+          }).open();
       }
-    </script>
-  </body>
+
+		function join() {
+			var password = $('#password').val();
+			var rePassword = $('#rePassword').val()
+			var userName = $('#userName').val();
+			//빈칸체크
+			if (password === ' ' || rePassword === '' || userName === '') {
+				alert('양식을 모두 적어주세요');
+				return false;
+			}
+			//비밀번호와 재확인 같은지 확인
+			if (password !== rePassword) {
+				alert('입력란 비밀번호가 다릅니다.');
+				$('#rePassword').focus();
+				return false;
+			}
+			//API서버에 전송할 json 생성
+			var jsonData = {
+				studentsName : userName,
+				studentsPassword : password
+			}
+			//AJAX세팅  
+			$.ajax({
+				url : "/api/v1/students",
+				type : "POST",
+				contentType : "application/json",//서버에 json타입으로 요청
+				dataType : "json",//서버결과 json으로요청
+				data : JSON.stringify(jsonData),
+				success : function(reponse) {
+					console.log(reponse)
+					if (reponse > 0) {
+						alert('회원가입이 완료되었습니다');
+						location.href = "/login"
+					}
+				}
+			});
+		}
+	</script>
+</body>
 </html>
