@@ -19,7 +19,7 @@ public class LoginController {
 	
 	@GetMapping("/logout")
 	public String callLougout(HttpSession httpsession) {
-		//세션 remove
+		//세션 삭제(로그아웃시 저장된 세션 삭제)
 		httpsession.removeAttribute("studentsId");
 		httpsession.removeAttribute("studentsName");
 		return "login";

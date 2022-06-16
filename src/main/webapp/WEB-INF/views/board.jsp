@@ -17,8 +17,10 @@
       <div class="write-popup">
         <div class="editor">
           <div class="input-box">
+          	<!-- 세션에서 가져온 학생아이뒤 -->
           	<input type = "hidden" value="${studentsId}" id ="studentsId" />
             <label for="studentsName">작성자 : </label>
+            <!-- 세션에서 가져온 학생이름 -->
             <input id="studentsName" type="text" value="${studentsName}" readonly />
           </div>
           <div class="input-box">
@@ -178,6 +180,7 @@
         <div class="recentOrders">
           <div class="cardHeader">
             <h2>Board List</h2>
+            <a href="/excel" class="excal-btn">엑셀 다운로드</a>
             <a href="#" class="btn">글 작성</a>
           </div>
           <table>

@@ -78,7 +78,7 @@ public class StudentsService {
 		int rows = StudentsMapper.updateStudents(vo);
 		return rows;
 	}
-	//가입된 학생인지 아닌지 여부 체크!
+	//(로그인시)가입된 학생인지 아닌지 여부 체크!
 	public boolean isStudents(StudentsVO vo , HttpSession httpSession) {
 		StudentsVO Student = StudentsMapper.selectStudentsOne(vo);
 		if(Student == null) { //쿼리결과가 null 리턴
@@ -89,7 +89,9 @@ public class StudentsService {
 		if(!passwordEncoder.matches(inputPassword, password)) {//비밀번호 체크!
 			return false;
 		}
+		//로그인 성공시 studentsId를 세션에 저장
 		httpSession.setAttribute("studentsId", Student.getStudentsId());
+		//로그인 성공시 studentsName를 세션에 저장
 		httpSession.setAttribute("studentsName", Student.getStudentsName());
 		return true;
 	}

@@ -15,6 +15,7 @@ public class WebConfig implements WebMvcConfigurer{
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
+		//logs에 기록되는 부분 제외
 		registry.addInterceptor(interceptor).excludePathPatterns(
 				"/api/v1/logs","/login","/join","/logs",
 				"/api/v1/login","/resources/static/css/*",

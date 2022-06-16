@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class GlobalController implements ErrorController{
 	@GetMapping("/error")
 	public String handleError(ModelMap map,HttpServletRequest request) {
-		
+		//발생하는 오류 종류 판별
 		String status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE).toString();
 		
 		System.out.println("Error Code : "+ status);

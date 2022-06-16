@@ -32,8 +32,11 @@ public class BoardController {
 		PageInfo<Map<String, Object>> pageInfo = new PageInfo<Map<String, Object>>(list);
 		map.addAttribute("pageHelper", pageInfo);
 
+		//세션에서 학생 Id를 가져옴
 		int studentsId = (int) session.getAttribute("studentsId");
 		map.addAttribute("studentsId", studentsId);
+		
+		//세션에서 학생 이름을 가져옴
 		String studentsName = (String) session.getAttribute("studentsName");
 		map.addAttribute("studentsName", studentsName);
 		

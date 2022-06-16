@@ -3,13 +3,53 @@ application:
    version: v0.0.1
    title: KANGINSEOK
 
+#포트수정
+server:
+   #port: {수정할 포트번호}
+   port: 8080
+
+#개발 버전 설정
+spring:
+   profiles:
+      # (active : 사용하고싶은 모드설정)
+      active: dev
+
 
 #MyBatis 설정
 mybatis:
    mapper-locations: classpath:/sqlmap/sqlmapper_*.xml
    type-aliases-package: com.dw.board.vo
-#MySQL 접속정보 설정
+   
+#페이징 처리
+pagehelper: 
+    #사용할 데이터베이스
+    helper-dialect: mysql
+    #0페이지 요청이 들어오면 자동으로 1페이지로, 13페이지 까지있는데 14페이지 요청이 들어오면 자동으로 13페이지로 변환.
+    reasonable: true
+       
+#MySQL 접속정보 설정 (env:개발모드)
+---
 spring:
+   profiles: env
+   datasource:
+      initialization-mode: always 
+      schema: classpath:init.sql
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://inseok-database-1.caasmklg2meg.ap-northeast-2.rds.amazonaws.com:3306/dw?useUnicode=true&charaterEncoding=utf-8&serverTimezone=UTC
+      username: admin
+      password: rkddlstjr
+   #jsp 경로 설정
+   mvc:
+      view:
+         prefix: /WEB-INF/views/
+         suffix: .jsp
+      #css,js,images 폴더 위치 설정
+      static-path-pattern: /resources/static/**
+      
+---
+#(dev:개발모드)
+spring:
+   profiles: dev
    datasource:
       initialization-mode: always 
       schema: classpath:init.sql
@@ -24,12 +64,6 @@ spring:
          suffix: .jsp
       #css,js,images 폴더 위치 설정
       static-path-pattern: /resources/static/**
-      
-pagehelper: 
-    #사용할 데이터베이스
-    helper-dialect: mysql
-    #0페이지 요청이 들어오면 자동으로 1페이지로, 13페이지 까지있는데 14페이지 요청이 들어오면 자동으로 13페이지로 변환.
-    reasonable: true
     
     
     
